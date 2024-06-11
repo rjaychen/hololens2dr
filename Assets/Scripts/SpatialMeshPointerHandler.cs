@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class SpatialMeshPointerHandler : MonoBehaviour, IMixedRealityFocusHandler, IMixedRealityPointerHandler
 {
@@ -29,6 +30,7 @@ public class SpatialMeshPointerHandler : MonoBehaviour, IMixedRealityFocusHandle
         // material.color = color_OnHover;
         //material.SetColor("_BaseColor", color_OnHover);
         // Debug.Log("Hovering on " + gameObject.name);
+        meshManager.runtimeDebuggerText.GetComponent<Text>().text = $"hovering on {gameObject.name}";
     }
 
     void IMixedRealityFocusHandler.OnFocusExit(FocusEventData eventData)
@@ -53,7 +55,8 @@ public class SpatialMeshPointerHandler : MonoBehaviour, IMixedRealityFocusHandle
     {
         //material.SetColor("_BaseColor", color_OnSelect);//  = color_OnSelect;
         var spawnPosition = eventData.Pointer.Result.Details.Point;
-        meshManager.createBoundingMesh(spawnPosition);
+        StartCoroutine(meshManager.createBoundingMesh(spawnPosition));
+        meshManager.runtimeDebuggerText.GetComponent<Text>().text = $"clicked {gameObject.name}";
         //meshManager.GenerateVertexMeshFromSpatial(new List<GameObject>() { boundingSphere });
     }
 
